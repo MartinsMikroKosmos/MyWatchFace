@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WatchFace
+    height="450"
+    width="450">
+    <Metadata
+        key="CLOCK_TYPE"
+        value="DIGITAL" />
+    <Scene backgroundColor="#ff000000">
+
+        <!-- ============ Background ============ -->
+        <PartImage
+            name="background"
+            height="450"
+            width="450"
+            x="0"
+            y="0">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <Image resource="bg_aurora" />
+        </PartImage>
+
+        <!-- ============ Weather (top left) ============ -->
+        <Group
+            name="weather"
+            height="64"
+            width="160"
+            x="96"
+            y="36">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <Condition>
+                <Expressions>
+                    <Expression name="weatherAvailable">[WEATHER.IS_AVAILABLE]</Expression>
+                </Expressions>
+                <Compare expression="weatherAvailable">
+                    <Condition>
+                        <Expressions>
+                            <Expression name="sun">([WEATHER.CONDITION] == 1 || [WEATHER.CONDITION] == 8) &amp;&amp; [WEATHER.IS_DAY]</Expression>
+                            <Expression name="moon">[WEATHER.CONDITION] == 1 || [WEATHER.CONDITION] == 8</Expression>
+                            <Expression name="partlyDay">[WEATHER.CONDITION] == 14 &amp;&amp; [WEATHER.IS_DAY]</Expression>
+                            <Expression name="partlyNight">[WEATHER.CONDITION] == 14</Expression>
+                            <Expression name="fog">[WEATHER.CONDITION] == 3 || [WEATHER.CONDITION] == 13</Expression>
+                            <Expression name="rain">[WEATHER.CONDITION] == 4 || [WEATHER.CONDITION] == 6 || [WEATHER.CONDITION] == 12</Expression>
+                            <Expression name="snow">[WEATHER.CONDITION] == 5 || [WEATHER.CONDITION] == 7 || [WEATHER.CONDITION] == 10 || [WEATHER.CONDITION] == 11</Expression>
+                            <Expression name="storm">[WEATHER.CONDITION] == 9</Expression>
+                            <Expression name="wind">[WEATHER.CONDITION] == 15</Expression>
+                        </Expressions>
+                        <Compare expression="sun">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_sun" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="moon">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_moon" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="partlyDay">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_partly_day" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="partlyNight">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_partly_night" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="fog">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_fog" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="rain">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_rain" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="snow">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_snow" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="storm">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_storm" />
+                            </PartImage>
+                        </Compare>
+                        <Compare expression="wind">
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_wind" />
+                            </PartImage>
+                        </Compare>
+                        <Default>
+                            <PartImage height="44" width="44" x="0" y="6">
+                                <Image resource="wx_cloud" />
+                            </PartImage>
+                        </Default>
+                    </Condition>
+                    <Condition>
+                        <Expressions>
+                            <Expression name="celsius">[WEATHER.TEMPERATURE_UNIT] == 1</Expression>
+                        </Expressions>
+                        <Compare expression="celsius">
+                            <PartText height="36" width="110" x="50" y="0">
+                                <Text align="START">
+                                    <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="30" weight="SEMI_BOLD">
+                                        <Template>%d°C<Parameter expression="[WEATHER.TEMPERATURE]" /></Template>
+                                    </Font>
+                                </Text>
+                            </PartText>
+                        </Compare>
+                        <Default>
+                            <PartText height="36" width="110" x="50" y="0">
+                                <Text align="START">
+                                    <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="30" weight="SEMI_BOLD">
+                                        <Template>%d°F<Parameter expression="[WEATHER.TEMPERATURE]" /></Template>
+                                    </Font>
+                                </Text>
+                            </PartText>
+                        </Default>
+                    </Condition>
+                    <PartText height="24" width="110" x="51" y="36">
+                        <Text align="START" ellipsis="TRUE">
+                            <Font color="#ffb4b8c8" family="SYNC_TO_DEVICE" size="17">
+                                <Template>%s<Parameter expression="[WEATHER.CONDITION_NAME]" /></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+                <Default>
+                    <PartImage alpha="120" height="44" width="44" x="0" y="6">
+                        <Image resource="wx_cloud" />
+                    </PartImage>
+                    <PartText height="36" width="110" x="50" y="0">
+                        <Text align="START">
+                            <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="30" weight="SEMI_BOLD">--°</Font>
+                        </Text>
+                    </PartText>
+                    <PartText height="24" width="110" x="51" y="36">
+                        <Text align="START">
+                            <Font color="#ffb4b8c8" family="SYNC_TO_DEVICE" size="17">Kein Wetter</Font>
+                        </Text>
+                    </PartText>
+                </Default>
+            </Condition>
+        </Group>
+
+        <!-- ============ Battery ring (top right) ============ -->
+        <Group
+            name="battery"
+            height="76"
+            width="100"
+            x="262"
+            y="30">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <PartDraw height="76" width="76" x="0" y="0">
+                <Launch target="BATTERY_STATUS" />
+                <Arc centerX="38" centerY="38" endAngle="135" height="68" startAngle="-135" width="68">
+                    <Stroke cap="ROUND" color="#33ffffff" thickness="5" />
+                </Arc>
+                <Arc centerX="38" centerY="38" endAngle="135" height="68" startAngle="-135" width="68">
+                    <Transform target="endAngle" value="-135 + 2.7 * [BATTERY_PERCENT]" />
+                    <Stroke cap="ROUND" color="#ff5b8cff" thickness="5">
+                        <LinearGradient colors="#ff8a5cf6 #ff4f8dff #ff40d0ff" endX="76" endY="0" positions="0 0.5 1" startX="0" startY="76" />
+                    </Stroke>
+                </Arc>
+            </PartDraw>
+            <PartText height="30" width="76" x="0" y="15">
+                <Text align="CENTER">
+                    <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="22" weight="SEMI_BOLD">
+                        <Template>%d%%<Parameter expression="[BATTERY_PERCENT]" /></Template>
+                    </Font>
+                </Text>
+            </PartText>
+            <PartText height="16" width="76" x="0" y="43">
+                <Text align="CENTER">
+                    <Font color="#ffb4b8c8" family="SYNC_TO_DEVICE" size="11" weight="MEDIUM">AKKU</Font>
+                </Text>
+            </PartText>
+            <PartImage height="18" width="12" x="86" y="36">
+                <Image resource="ic_battery" />
+            </PartImage>
+        </Group>
+
+        <!-- ============ Date ============ -->
+        <PartText
+            name="date"
+            height="32"
+            width="350"
+            x="50"
+            y="114">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <Text align="CENTER">
+                <Font color="#ffd8dae6" family="SYNC_TO_DEVICE" size="25" weight="SEMI_BOLD">
+                    <Upper>
+                        <Template>%s<Parameter expression="icuText(&quot;EEE, d. MMM&quot;)" /></Template>
+                    </Upper>
+                </Font>
+            </Text>
+        </PartText>
+
+        <!-- ============ Time (gradient, interactive) ============ -->
+        <Group
+            name="time"
+            height="116"
+            width="450"
+            x="0"
+            y="138">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <PartDraw height="116" width="450" x="0" y="0">
+                <Rectangle height="116" width="450" x="0" y="0">
+                    <Fill color="#ffffffff">
+                        <LinearGradient colors="#ffffffff #ffe8e4ff #ffb4bcff #ffff9d6b #ffff6f3c" endX="380" endY="40" positions="0 0.3 0.5 0.78 1" startX="70" startY="80" />
+                    </Fill>
+                </Rectangle>
+            </PartDraw>
+            <Group
+                name="timeMask"
+                height="116"
+                width="450"
+                x="0"
+                y="0"
+                renderMode="MASK">
+                <Condition>
+                    <Expressions>
+                        <Expression name="is24h">[IS_24_HOUR_MODE]</Expression>
+                    </Expressions>
+                    <Compare expression="is24h">
+                        <PartText height="116" width="170" x="42" y="0">
+                            <Text align="END">
+                                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="104" weight="BOLD">
+                                    <Template>%s<Parameter expression="[HOUR_0_23_Z]" /></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+                        <PartText height="116" width="26" x="212" y="-6">
+                            <Text align="CENTER">
+                                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="96" weight="BOLD">:</Font>
+                            </Text>
+                        </PartText>
+                        <PartText height="116" width="170" x="238" y="0">
+                            <Text align="START">
+                                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="104" weight="BOLD">
+                                    <Template>%s<Parameter expression="[MINUTE_Z]" /></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+                    </Compare>
+                    <Default>
+                        <PartText height="116" width="170" x="20" y="0">
+                            <Text align="END">
+                                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="104" weight="BOLD">
+                                    <Template>%d<Parameter expression="[HOUR_1_12]" /></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+                        <PartText height="116" width="26" x="190" y="-6">
+                            <Text align="CENTER">
+                                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="96" weight="BOLD">:</Font>
+                            </Text>
+                        </PartText>
+                        <PartText height="116" width="170" x="260" y="0">
+                            <Text align="START">
+                                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="104" weight="BOLD">
+                                    <Template>%s<Parameter expression="[MINUTE_Z]" /></Template>
+                                </Font>
+                            </Text>
+                        </PartText>
+                    </Default>
+                </Condition>
+            </Group>
+        </Group>
+
+        <!-- AM/PM badge, only in 12h mode -->
+        <Group
+            name="ampm"
+            height="40"
+            width="40"
+            x="218"
+            y="176">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <Condition>
+                <Expressions>
+                    <Expression name="is12h">![IS_24_HOUR_MODE]</Expression>
+                </Expressions>
+                <Compare expression="is12h">
+                    <PartDraw height="40" width="40" x="0" y="0">
+                        <Ellipse height="40" width="40" x="0" y="0">
+                            <Fill color="#cc2c2f4a" />
+                        </Ellipse>
+                    </PartDraw>
+                    <PartText height="40" width="40" x="0" y="0">
+                        <Text align="CENTER">
+                            <Font color="#ffc8ccff" family="SYNC_TO_DEVICE" size="15" weight="BOLD">
+                                <Template>%s<Parameter expression="[AMPM_STRING]" /></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+            </Condition>
+        </Group>
+
+        <!-- ============ Heart rate + zone ============ -->
+        <Group
+            name="heart"
+            height="40"
+            width="300"
+            x="86"
+            y="240">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <PartImage height="26" width="26" x="0" y="2">
+                <Launch target="HEALTH_HEART_RATE" />
+                <Image resource="ic_heart" />
+            </PartImage>
+            <Condition>
+                <Expressions>
+                    <Expression name="hasHr">[HEART_RATE] &gt; 0</Expression>
+                </Expressions>
+                <Compare expression="hasHr">
+                    <PartText height="30" width="110" x="31" y="0">
+                        <Launch target="HEALTH_HEART_RATE" />
+                        <Text align="START">
+                            <Font color="#ffff5a64" family="SYNC_TO_DEVICE" size="23" weight="SEMI_BOLD">
+                                <Template>%d BPM<Parameter expression="round([HEART_RATE])" /></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+                <Default>
+                    <PartText height="30" width="110" x="31" y="0">
+                        <Launch target="HEALTH_HEART_RATE" />
+                        <Text align="START">
+                            <Font color="#ffff5a64" family="SYNC_TO_DEVICE" size="23" weight="SEMI_BOLD">-- BPM</Font>
+                        </Text>
+                    </PartText>
+                </Default>
+            </Condition>
+            <Condition>
+                <Expressions>
+                    <Expression name="zPeak">[HEART_RATE] &gt;= 160</Expression>
+                    <Expression name="zCardio">[HEART_RATE] &gt;= 140</Expression>
+                    <Expression name="zFat">[HEART_RATE] &gt;= 120</Expression>
+                    <Expression name="zLight">[HEART_RATE] &gt;= 100</Expression>
+                </Expressions>
+                <Compare expression="zPeak">
+                    <PartText height="30" width="150" x="146" y="2">
+                        <Text align="START">
+                            <Font color="#ffff9a4a" family="SYNC_TO_DEVICE" size="18" weight="MEDIUM">Zone: Peak</Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+                <Compare expression="zCardio">
+                    <PartText height="30" width="150" x="146" y="2">
+                        <Text align="START">
+                            <Font color="#ffff9a4a" family="SYNC_TO_DEVICE" size="18" weight="MEDIUM">Zone: Cardio</Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+                <Compare expression="zFat">
+                    <PartText height="30" width="150" x="146" y="2">
+                        <Text align="START">
+                            <Font color="#ffff9a4a" family="SYNC_TO_DEVICE" size="18" weight="MEDIUM">Zone: Fettverbr.</Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+                <Compare expression="zLight">
+                    <PartText height="30" width="150" x="146" y="2">
+                        <Text align="START">
+                            <Font color="#ffff9a4a" family="SYNC_TO_DEVICE" size="18" weight="MEDIUM">Zone: Leicht</Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+                <Default>
+                    <PartText height="30" width="150" x="146" y="2">
+                        <Text align="START">
+                            <Font color="#ffff9a4a" family="SYNC_TO_DEVICE" size="18" weight="MEDIUM">Zone: Ruhe</Font>
+                        </Text>
+                    </PartText>
+                </Default>
+            </Condition>
+
+            <!-- Zone bar: dim full gradient + bright part masked to heart rate -->
+            <PartDraw alpha="70" height="6" width="136" x="148" y="32">
+                <RoundRectangle cornerRadiusX="3" cornerRadiusY="3" height="6" width="136" x="0" y="0">
+                    <Fill color="#ffffffff">
+                        <LinearGradient colors="#ff3ddc84 #ffffd24a #ffff8a3d #ffff4a5a" endX="136" endY="0" positions="0 0.35 0.65 1" startX="0" startY="0" />
+                    </Fill>
+                </RoundRectangle>
+            </PartDraw>
+            <Group
+                name="zoneBar"
+                height="6"
+                width="136"
+                x="148"
+                y="32">
+                <PartDraw height="6" width="136" x="0" y="0">
+                    <RoundRectangle cornerRadiusX="3" cornerRadiusY="3" height="6" width="136" x="0" y="0">
+                        <Fill color="#ffffffff">
+                            <LinearGradient colors="#ff3ddc84 #ffffd24a #ffff8a3d #ffff4a5a" endX="136" endY="0" positions="0 0.35 0.65 1" startX="0" startY="0" />
+                        </Fill>
+                    </RoundRectangle>
+                </PartDraw>
+                <PartDraw height="6" width="136" x="0" y="0" renderMode="MASK">
+                    <RoundRectangle cornerRadiusX="3" cornerRadiusY="3" height="6" width="136" x="0" y="0">
+                        <Transform target="width" value="136 * clamp(([HEART_RATE] - 50) / 130, 0, 1)" />
+                        <Fill color="#ffffffff" />
+                    </RoundRectangle>
+                </PartDraw>
+            </Group>
+        </Group>
+
+        <!-- ============ Ring 1: steps (native data) ============ -->
+        <Group
+            name="steps"
+            height="104"
+            width="96"
+            x="82"
+            y="282">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <PartDraw height="88" width="96" x="0" y="0">
+                <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                    <Stroke cap="ROUND" color="#3334d17a" thickness="7" />
+                </Arc>
+                <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                    <Transform target="endAngle" value="-125 + 250 * clamp([STEP_COUNT] / ([STEP_GOAL] &gt;= 1000 ? [STEP_GOAL] : 10000), 0, 1)" />
+                    <Stroke cap="ROUND" color="#ff34d17a" thickness="7" />
+                </Arc>
+            </PartDraw>
+            <PartImage height="18" width="18" x="39" y="10">
+                <Image resource="ic_steps" />
+            </PartImage>
+            <PartText height="28" width="96" x="0" y="26">
+                <Text align="CENTER">
+                    <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="22" weight="SEMI_BOLD">
+                        <Template>%s<Parameter expression="numberFormat(&quot;#,###&quot;, [STEP_COUNT])" /></Template>
+                    </Font>
+                </Text>
+            </PartText>
+            <PartText height="18" width="96" x="0" y="52">
+                <Text align="CENTER">
+                    <Font color="#ff34d17a" family="SYNC_TO_DEVICE" size="14" weight="MEDIUM">
+                        <Template>/ %dK<Parameter expression="round(([STEP_GOAL] &gt;= 1000 ? [STEP_GOAL] : 10000) / 1000)" /></Template>
+                    </Font>
+                </Text>
+            </PartText>
+            <PartText height="22" width="96" x="0" y="82">
+                <Text align="CENTER">
+                    <Font color="#ffb0b4c4" family="SYNC_TO_DEVICE" size="16">Schritte</Font>
+                </Text>
+            </PartText>
+        </Group>
+
+        <!-- ============ Ring 2: activity (complication) ============ -->
+        <PartText
+            name="activityLabel"
+            height="22"
+            width="96"
+            x="177"
+            y="364">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <Text align="CENTER">
+                <Font color="#ffb0b4c4" family="SYNC_TO_DEVICE" size="16">Aktivität</Font>
+            </Text>
+        </PartText>
+        <ComplicationSlot
+            slotId="0"
+            displayName="activity_slot"
+            height="88"
+            width="96"
+            x="177"
+            y="282"
+            supportedTypes="RANGED_VALUE SHORT_TEXT EMPTY">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <BoundingOval height="88" width="88" x="4" y="0" />
+            <Complication type="RANGED_VALUE">
+                <PartDraw height="88" width="96" x="0" y="0">
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Stroke cap="ROUND" color="#33ff8a3d" thickness="7" />
+                    </Arc>
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Transform target="endAngle" value="-125 + 250 * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
+                        <Stroke cap="ROUND" color="#ffff8a3d" thickness="7" />
+                    </Arc>
+                </PartDraw>
+                <PartImage height="18" width="18" x="39" y="10">
+                    <Image resource="ic_activity" />
+                </PartImage>
+                <PartText height="28" width="80" x="8" y="26">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="22" weight="SEMI_BOLD">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText height="18" width="70" x="13" y="52">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ffff8a3d" family="SYNC_TO_DEVICE" size="14" weight="MEDIUM">
+                            <Template>%s<Parameter expression="[COMPLICATION.TITLE]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="SHORT_TEXT">
+                <PartDraw height="88" width="96" x="0" y="0">
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Stroke cap="ROUND" color="#ffff8a3d" thickness="7" />
+                    </Arc>
+                </PartDraw>
+                <PartImage height="18" width="18" x="39" y="10">
+                    <Image resource="ic_activity" />
+                </PartImage>
+                <PartText height="28" width="80" x="8" y="26">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="22" weight="SEMI_BOLD">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText height="18" width="70" x="13" y="52">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ffff8a3d" family="SYNC_TO_DEVICE" size="14" weight="MEDIUM">
+                            <Template>%s<Parameter expression="[COMPLICATION.TITLE]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="EMPTY">
+                <PartDraw height="88" width="96" x="0" y="0">
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Stroke cap="ROUND" color="#33ff8a3d" thickness="7" />
+                    </Arc>
+                </PartDraw>
+                <PartImage height="22" width="22" x="37" y="33">
+                    <Image resource="ic_plus" />
+                </PartImage>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- ============ Ring 3: distance (complication) ============ -->
+        <PartText
+            name="distanceLabel"
+            height="22"
+            width="104"
+            x="268"
+            y="364">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <Text align="CENTER">
+                <Font color="#ffb0b4c4" family="SYNC_TO_DEVICE" size="16">Entfernung</Font>
+            </Text>
+        </PartText>
+        <ComplicationSlot
+            slotId="1"
+            displayName="distance_slot"
+            height="88"
+            width="96"
+            x="272"
+            y="282"
+            supportedTypes="RANGED_VALUE SHORT_TEXT EMPTY">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <BoundingOval height="88" width="88" x="4" y="0" />
+            <Complication type="RANGED_VALUE">
+                <PartDraw height="88" width="96" x="0" y="0">
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Stroke cap="ROUND" color="#334f8dff" thickness="7" />
+                    </Arc>
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Transform target="endAngle" value="-125 + 250 * clamp(([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]), 0, 1)" />
+                        <Stroke cap="ROUND" color="#ff4f8dff" thickness="7" />
+                    </Arc>
+                </PartDraw>
+                <PartImage height="18" width="18" x="39" y="10">
+                    <Image resource="ic_pin" />
+                </PartImage>
+                <PartText height="28" width="80" x="8" y="26">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="22" weight="SEMI_BOLD">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText height="18" width="70" x="13" y="52">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ff4f8dff" family="SYNC_TO_DEVICE" size="14" weight="MEDIUM">
+                            <Template>%s<Parameter expression="[COMPLICATION.TITLE]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="SHORT_TEXT">
+                <PartDraw height="88" width="96" x="0" y="0">
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Stroke cap="ROUND" color="#ff4f8dff" thickness="7" />
+                    </Arc>
+                </PartDraw>
+                <PartImage height="18" width="18" x="39" y="10">
+                    <Image resource="ic_pin" />
+                </PartImage>
+                <PartText height="28" width="80" x="8" y="26">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="22" weight="SEMI_BOLD">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText height="18" width="70" x="13" y="52">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font color="#ff4f8dff" family="SYNC_TO_DEVICE" size="14" weight="MEDIUM">
+                            <Template>%s<Parameter expression="[COMPLICATION.TITLE]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="EMPTY">
+                <PartDraw height="88" width="96" x="0" y="0">
+                    <Arc centerX="48" centerY="44" endAngle="125" height="80" startAngle="-125" width="80">
+                        <Stroke cap="ROUND" color="#334f8dff" thickness="7" />
+                    </Arc>
+                </PartDraw>
+                <PartImage height="22" width="22" x="37" y="33">
+                    <Image resource="ic_plus" />
+                </PartImage>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- ============ Bottom bar: notifications, pay, music ============ -->
+        <Group
+            name="bottomBar"
+            height="32"
+            width="240"
+            x="108"
+            y="388">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="0" />
+            <PartImage height="20" width="20" x="4" y="7">
+                <Image resource="ic_message" />
+            </PartImage>
+            <PartText height="32" width="34" x="28" y="0">
+                <Text align="START">
+                    <Font color="#ffd7dbe8" family="SYNC_TO_DEVICE" size="17" weight="MEDIUM">
+                        <Template>%d<Parameter expression="[UNREAD_NOTIFICATION_COUNT]" /></Template>
+                    </Font>
+                </Text>
+            </PartText>
+            <PartDraw height="32" width="100" x="62" y="0">
+                <Launch target="com.google.android.apps.walletnfcrel" />
+                <RoundRectangle cornerRadiusX="16" cornerRadiusY="16" height="32" width="100" x="0" y="0">
+                    <Fill color="#33ffffff" />
+                </RoundRectangle>
+            </PartDraw>
+            <PartText height="32" width="100" x="62" y="0">
+                <Launch target="com.google.android.apps.walletnfcrel" />
+                <Text align="CENTER">
+                    <Font color="#ffeceef6" family="SYNC_TO_DEVICE" size="17" weight="MEDIUM">Bezahlen</Font>
+                </Text>
+            </PartText>
+            <PartText height="32" width="70" x="168" y="0">
+                <Launch target="MUSIC_PLAYER" />
+                <Text align="CENTER">
+                    <Font color="#ffa0a4b4" family="SYNC_TO_DEVICE" size="17" weight="MEDIUM">Musik</Font>
+                </Text>
+            </PartText>
+        </Group>
+
+        <!-- ============ Ambient (always-on) ============ -->
+        <Group
+            name="ambient"
+            alpha="0"
+            height="450"
+            width="450"
+            x="0"
+            y="0">
+            <Variant
+                mode="AMBIENT"
+                target="alpha"
+                value="255" />
+            <PartText height="32" width="350" x="50" y="124">
+                <Text align="CENTER">
+                    <Font color="#ff9a9eb0" family="SYNC_TO_DEVICE" size="24" weight="MEDIUM">
+                        <Upper>
+                            <Template>%s<Parameter expression="icuText(&quot;EEE, d. MMM&quot;)" /></Template>
+                        </Upper>
+                    </Font>
+                </Text>
+            </PartText>
+            <Condition>
+                <Expressions>
+                    <Expression name="is24hAmbient">[IS_24_HOUR_MODE]</Expression>
+                </Expressions>
+                <Compare expression="is24hAmbient">
+                    <PartText height="116" width="400" x="25" y="160">
+                        <Text align="CENTER">
+                            <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="104" weight="THIN">
+                                <Template>%s:%s<Parameter expression="[HOUR_0_23_Z]" /><Parameter expression="[MINUTE_Z]" /></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                </Compare>
+                <Default>
+                    <PartText height="116" width="400" x="25" y="160">
+                        <Text align="CENTER">
+                            <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="104" weight="THIN">
+                                <Template>%d:%s<Parameter expression="[HOUR_1_12]" /><Parameter expression="[MINUTE_Z]" /></Template>
+                            </Font>
+                        </Text>
+                    </PartText>
+                </Default>
+            </Condition>
+            <PartText height="28" width="200" x="125" y="296">
+                <Text align="CENTER">
+                    <Font color="#ff7a7e90" family="SYNC_TO_DEVICE" size="18">
+                        <Template>%d%%<Parameter expression="[BATTERY_PERCENT]" /></Template>
+                    </Font>
+                </Text>
+            </PartText>
+        </Group>
+    </Scene>
+</WatchFace>
