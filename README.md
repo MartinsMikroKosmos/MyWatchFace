@@ -22,6 +22,8 @@ watchface/src/main/res/drawable/           # Hintergrund, Icons, Vorschau (gener
 tools/watchface/aurora_base.xml            # statisches Basis-Layout
 tools/watchface/gen_xml.py                 # erzeugt watchface.xml inkl. Complication-Slots
 tools/watchface/gen_assets.py              # erzeugt die Bitmaps (Pillow + NumPy)
+tools/watchface/gen_store_assets.py        # erzeugt die Play-Store-Grafiken
+playstore/                                 # Store-Grafiken und -Texte
 ```
 
 ## Bauen & Installieren
@@ -36,7 +38,22 @@ adb install -r watchface/build/outputs/apk/debug/watchface-debug.apk
 Danach auf der Uhr das Zifferblatt **Aurora** auswählen.
 
 > Hinweis: Die Uhr speichert die gewählten Datenquellen pro Slot-Position. Nach Änderungen an
-> Anzahl/Reihenfolge der Slots die App vorher deinstallieren (`adb uninstall com.example.mywatchface`).
+> Anzahl/Reihenfolge der Slots die App vorher deinstallieren (`adb uninstall de.martinsmikrokosmos.aurora`).
+
+## Release für Google Play
+
+1. `keystore.properties.example` nach `keystore.properties` kopieren und den Upload-Key eintragen
+   (Datei und Keystore werden nicht eingecheckt).
+2. `versionCode` in `watchface/build.gradle.kts` erhöhen.
+3. Signiertes App-Bundle bauen:
+
+```sh
+./gradlew :watchface:bundleRelease
+# -> watchface/build/outputs/bundle/release/watchface-release.aab
+```
+
+Store-Texte, Grafiken und Angaben zur Datensicherheit: [`playstore/listing.md`](playstore/listing.md),
+Datenschutzerklärung: [`PRIVACY.md`](PRIVACY.md).
 
 ## Assets & Layout neu generieren
 
